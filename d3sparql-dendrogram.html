@@ -41,27 +41,20 @@
       <form class="form-inline">
         <label>SPARQL endpoint:</label>
         <div class="input-append">
-          <input id="endpoint" class="span5" value="http://togostanza.org/sparql" type="text">
+          <input id="endpoint" class="span5" value="http://45.33.93.64/blazegraph/sparql" type="text">
           <button class="btn" type="button" onclick="exec()">Query</button>
           <button class="btn" type="button" onclick="exec_offline()">Use cache</button>
           <button class="btn" type="button" onclick="toggle()"><i id="button" class="icon-chevron-up"></i></button>
         </div>
       </form>
       <textarea id="sparql" class="span9" rows=15>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX tax: <http://ddbj.nig.ac.jp/ontologies/taxonomy/>
-
-SELECT DISTINCT ?root_name ?parent_name ?child_name
-FROM <http://togogenome.org/graph/taxonomy>
+SELECT ?root_name ?parent_name ?child_name
 WHERE
 {
-  VALUES ?root_name { "Tardigrada" }
-  ?root tax:scientificName ?root_name .
-  ?child rdfs:subClassOf+ ?root .
-  ?child rdfs:subClassOf ?parent .
-  ?child tax:scientificName ?child_name .
-  ?parent tax:scientificName ?parent_name .
+  BIND (URI("http://library.temple.edu/system/tul") as ?root_name) .
+  ?child_name tul:inEntity ?parent_name
 }
+
       </textarea>
     </div>
     <div id="result"></div>
